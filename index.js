@@ -9,7 +9,6 @@ const port = 3000;
 
 app.use(express.json());
 
-// Подключение к базе данных
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -17,7 +16,6 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME
 });
 
-// Проверка подключения
 db.connect(err => {
   if (err) {
     console.error('DB Connection error:', err);
@@ -26,7 +24,6 @@ db.connect(err => {
   }
 });
 
-// Роут: получить все книги
 app.get('/books', (req, res) => {
   db.query('SELECT * FROM books', (err, results) => {
     if (err) return res.status(500).json({ error: err });
@@ -34,7 +31,6 @@ app.get('/books', (req, res) => {
   });
 });
 
-// Роут: добавить книгу
 app.post('/books', (req, res) => {
   const { name, description } = req.body;
   db.query(
